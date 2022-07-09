@@ -1,13 +1,14 @@
 package kosterror.shift.entity;
 
 
-import kosterror.shift.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
@@ -26,37 +27,13 @@ public class UserEntity {
     @Column
     private String secondName;
 
-    @Temporal(TemporalType.DATE)
-    @Column
-    private Date birthdayDate;
-
     @Column
     private int age;
-
-    @Temporal(TemporalType.DATE)
-    @Column
-    private Date registrationDate;
 
     @Column
     private String login;
 
     @Column
     private String password;
-
-    @Column
-    private String email;
-
-    public UserDTO convertToUserDTO() {
-        return new UserDTO(
-                uuid,
-                firstName,
-                secondName,
-                birthdayDate,
-                age,
-                registrationDate,
-                login,
-                email
-        );
-    }
 
 }
