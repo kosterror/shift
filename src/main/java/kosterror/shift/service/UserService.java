@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -20,47 +18,21 @@ public class UserService {
 
     public UserDTO create(NewUserDTO newUserDTO) {
 
-        //создадим сущность, которую сохраним в БД
-        UserEntity userEntity = new UserEntity(
-                UUID.randomUUID().toString(),
-                newUserDTO.getFirstName(),
-                newUserDTO.getSecondName(),
-                newUserDTO.getBirthdayDate(),
-                newUserDTO.getAge(),
-                newUserDTO.getRegistrationDate(),
-                newUserDTO.getLogin(),
-                newUserDTO.getPassword(),
-                newUserDTO.getEmail()
-        );
+        //создадим сущность для сохранение в БД
+        UserEntity userEntity = newUserDTO.convertToUserEntity();
 
-        UserEntity savedUserEntity = userRepository.save(userEntity);   //сохранили сущность в БД
+        //сохраняем в БД
+        UserEntity savedUserEntity = userRepository.save(userEntity);
 
-        //вернем информацию о этой сущности, без пароля (думаю, что так правильнее)
-        return new UserDTO(
-                savedUserEntity.getUuid(),
-                savedUserEntity.getFirstName(),
-                savedUserEntity.getSecondName(),
-                savedUserEntity.getBirthdayDate(),
-                savedUserEntity.getAge(),
-                savedUserEntity.getRegistrationDate(),
-                savedUserEntity.getLogin(),
-                savedUserEntity.getEmail()
-        );
+        //возвращаем DTO (сущность без пароля)
+        return savedUserEntity.convertToUserDTO();
     }
 
     public UserDTO getUserById(String id) {
+        //найдем в БД сущность по id, если такой нет, то кинем исключение
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
 
-        return new UserDTO(
-                userEntity.getUuid(),
-                userEntity.getFirstName(),
-                userEntity.getSecondName(),
-                userEntity.getBirthdayDate(),
-                userEntity.getAge(),
-                userEntity.getRegistrationDate(),
-                userEntity.getLogin(),
-                userEntity.getEmail()
-        );
+        return userEntity.convertToUserDTO();
     }
 
 }

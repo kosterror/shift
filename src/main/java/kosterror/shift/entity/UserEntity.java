@@ -1,6 +1,7 @@
 package kosterror.shift.entity;
 
 
+import kosterror.shift.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,5 +45,18 @@ public class UserEntity {
 
     @Column
     private String email;
+
+    public UserDTO convertToUserDTO() {
+        return new UserDTO(
+                uuid,
+                firstName,
+                secondName,
+                birthdayDate,
+                age,
+                registrationDate,
+                login,
+                email
+        );
+    }
 
 }
