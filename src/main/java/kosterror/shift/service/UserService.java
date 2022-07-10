@@ -5,7 +5,7 @@ import kosterror.shift.dto.NewUserDTO;
 import kosterror.shift.dto.UserDTO;
 import kosterror.shift.entity.UserEntity;
 import kosterror.shift.repository.UserRepository;
-import kosterror.shift.util.Convert;
+import kosterror.shift.util.UserConvert;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,21 +20,21 @@ public class UserService {
     public UserDTO create(NewUserDTO newUserDTO) {
 
         //создадим сущность для сохранение в БД
-        UserEntity userEntity = Convert.NewUserDTOToUserEntity(newUserDTO);
+        UserEntity userEntity = UserConvert.NewDTOToEntity(newUserDTO);
 
 
         //сохраняем в БД
         UserEntity savedUserEntity = userRepository.save(userEntity);
 
         //возвращаем DTO (сущность без пароля)
-        return Convert.UserEntityToUserDTO(savedUserEntity);
+        return UserConvert.EntityToDTO(savedUserEntity);
     }
 
     public UserDTO getUserById(String id) {
         //найдем в БД сущность по id, если такой нет, то кинем исключение
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
 
-        return Convert.UserEntityToUserDTO(userEntity);
+        return UserConvert.EntityToDTO(userEntity);
     }
 
 }

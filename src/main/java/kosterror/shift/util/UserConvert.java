@@ -6,8 +6,8 @@ import kosterror.shift.entity.UserEntity;
 
 import java.util.UUID;
 
-public class Convert {
-    public static UserEntity NewUserDTOToUserEntity(NewUserDTO newUserDTO) {
+public class UserConvert {
+    public static UserEntity NewDTOToEntity(NewUserDTO newUserDTO) {
         return new UserEntity(
                 UUID.randomUUID().toString(),
                 newUserDTO.getFirstName(),
@@ -18,7 +18,7 @@ public class Convert {
         );
     }
 
-    public static UserDTO UserEntityToUserDTO(UserEntity userEntity) {
+    public static UserDTO EntityToDTO(UserEntity userEntity) {
         return new UserDTO(
                 userEntity.getUuid(),
                 userEntity.getFirstName(),
