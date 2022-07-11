@@ -1,10 +1,8 @@
-package kosterror.shift.dto;
+package kosterror.shift.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -15,15 +13,7 @@ public class UserDTO {
 
     private String firstName;
 
-    private String secondName;
-
-    private Date birthdayDate;
+    private String lastName;
 
     private int age;
-
-    private Date registrationDate;
-
-    private String login;
-
-    private String email;
 }
