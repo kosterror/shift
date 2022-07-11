@@ -1,8 +1,8 @@
 package kosterror.shift.service;
 
-import kosterror.shift.dto.NewPostDTO;
-import kosterror.shift.dto.PostDTO;
-import kosterror.shift.entity.PostEntity;
+import kosterror.shift.model.dto.NewPostDTO;
+import kosterror.shift.model.dto.PostDTO;
+import kosterror.shift.model.entity.PostEntity;
 import kosterror.shift.repository.PostRepository;
 import kosterror.shift.util.PostConvert;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package kosterror.shift.entity;
+package kosterror.shift.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

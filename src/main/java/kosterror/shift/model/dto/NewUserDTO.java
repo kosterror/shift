@@ -1,4 +1,4 @@
-package kosterror.shift.dto;
+package kosterror.shift.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ public class NewUserDTO {
 
     private String firstName;
 
-    private String secondName;
+    private String lastName;
 
     private int age;
 

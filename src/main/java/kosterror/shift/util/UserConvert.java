@@ -1,9 +1,10 @@
 package kosterror.shift.util;
 
-import kosterror.shift.dto.NewUserDTO;
-import kosterror.shift.dto.UserDTO;
-import kosterror.shift.entity.UserEntity;
+import kosterror.shift.model.dto.NewUserDTO;
+import kosterror.shift.model.dto.UserDTO;
+import kosterror.shift.model.entity.UserEntity;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class UserConvert {
@@ -11,7 +12,7 @@ public class UserConvert {
         return new UserEntity(
                 UUID.randomUUID().toString(),
                 newUserDTO.getFirstName(),
-                newUserDTO.getSecondName(),
+                newUserDTO.getLastName(),
                 newUserDTO.getAge(),
                 newUserDTO.getLogin(),
                 newUserDTO.getPassword()
@@ -22,8 +23,18 @@ public class UserConvert {
         return new UserDTO(
                 userEntity.getUuid(),
                 userEntity.getFirstName(),
-                userEntity.getSecondName(),
+                userEntity.getLastName(),
                 userEntity.getAge()
         );
+    }
+
+    public static ArrayList<UserDTO> ListEntityToListDTO(ArrayList<UserEntity> userEntities) {
+        ArrayList<UserDTO> usersDTO = new ArrayList<UserDTO>();
+
+        for (int i = 0; i < userEntities.size(); i++) {
+            usersDTO.add(UserConvert.EntityToDTO(userEntities.get(i)));
+        }
+
+        return usersDTO;
     }
 }

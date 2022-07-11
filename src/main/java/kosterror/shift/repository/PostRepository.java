@@ -1,6 +1,6 @@
 package kosterror.shift.repository;
 
-import kosterror.shift.entity.PostEntity;
+import kosterror.shift.model.entity.PostEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.ArrayList;

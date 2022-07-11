@@ -1,4 +1,4 @@
-package kosterror.shift.entity;
+package kosterror.shift.model.entity;
 
 
 import lombok.AllArgsConstructor;
@@ -25,7 +25,7 @@ public class UserEntity {
     private String firstName;
 
     @Column
-    private String secondName;
+    private String lastName;
 
     @Column
     private int age;
