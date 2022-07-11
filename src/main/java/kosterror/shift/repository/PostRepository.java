@@ -1,7 +1,10 @@
 package kosterror.shift.repository;
 
 import kosterror.shift.entity.PostEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PostRepository extends CrudRepository<PostEntity, String> {
+import java.util.ArrayList;
+
+public interface PostRepository extends JpaRepository<PostEntity, String> {
+    ArrayList<PostEntity> findAllByAuthorId(String id);
 }

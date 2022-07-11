@@ -4,6 +4,7 @@ import kosterror.shift.dto.NewPostDTO;
 import kosterror.shift.dto.PostDTO;
 import kosterror.shift.entity.PostEntity;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class PostConvert {
@@ -24,6 +25,16 @@ public class PostConvert {
                 postEntity.getTitle(),
                 postEntity.getText()
         );
+    }
+
+    public static ArrayList<PostDTO> ListEntityToListDTO(ArrayList<PostEntity> posts) {
+        ArrayList<PostDTO> postEntities = new ArrayList<PostDTO>();
+
+        for (int i = 0; i < posts.size(); i++) {
+            postEntities.add(PostConvert.EntityToDTO(posts.get(i)));
+        }
+
+        return postEntities;
     }
 
 }

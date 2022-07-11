@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.ArrayList;
+
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -28,5 +30,11 @@ public class PostService {
         PostEntity postEntity = postRepository.findById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
 
         return PostConvert.EntityToDTO(postEntity);
+    }
+
+    public ArrayList<PostEntity> getAllPostsByIUserId(String userId) {
+        ArrayList<PostEntity> posts = postRepository.findAllByAuthorId(userId);
+
+        return posts;
     }
 }
