@@ -2,7 +2,11 @@ package kosterror.shift.service;
 
 import kosterror.shift.model.dto.NewPostDTO;
 import kosterror.shift.model.dto.PostDTO;
+import kosterror.shift.model.entity.CommentEntity;
 import kosterror.shift.model.entity.PostEntity;
+import kosterror.shift.model.entity.PostLikeEntity;
+import kosterror.shift.repository.CommentRepository;
+import kosterror.shift.repository.PostLikeRepository;
 import kosterror.shift.repository.PostRepository;
 import kosterror.shift.util.PostConvert;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +21,8 @@ import java.util.ArrayList;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final PostLikeRepository postLikeRepository;
+    private final CommentRepository commentRepository;
 
     public PostDTO create(NewPostDTO newPostDTO) {
         PostEntity postEntity = PostConvert.NewToEntity(newPostDTO);
@@ -26,15 +32,30 @@ public class PostService {
         return PostConvert.EntityToDTO(savedPostEntity);
     }
 
-    public PostDTO getPostById(String id) {
-        PostEntity postEntity = postRepository.findById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+    public PostDTO getPostByPostId(Long postId) {
+        PostEntity postEntity = postRepository.findById(postId).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
 
         return PostConvert.EntityToDTO(postEntity);
     }
 
-    public ArrayList<PostEntity> getAllPostsByIUserId(String userId) {
-        ArrayList<PostEntity> posts = postRepository.findAllByAuthorId(userId);
+    public ArrayList<PostEntity> getAllPostsByIUserId(Long userId) {
+        return postRepository.findAllByAuthorId(userId);
+    }
 
-        return posts;
+    public PostLikeEntity like(PostLikeEntity postLikeEntity) {
+        //TODO: добавить проверку наличия лайка, валидация короче
+        return postLikeRepository.save(postLikeEntity);
+    }
+
+    public ArrayList<PostLikeEntity> getPostLikesByPostId(Long postId) {
+        return postLikeRepository.getPostLikeEntitiesByPostId(postId);
+    }
+
+    public CommentEntity comment(CommentEntity commentEntity) {
+        return commentRepository.save(commentEntity);
+    }
+
+    public ArrayList<CommentEntity> getAllCommentsByPostId(Long id) {
+        return commentRepository.getAllByPostId(id);
     }
 }

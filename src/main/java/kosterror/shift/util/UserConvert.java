@@ -5,12 +5,10 @@ import kosterror.shift.model.dto.UserDTO;
 import kosterror.shift.model.entity.UserEntity;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class UserConvert {
     public static UserEntity NewDTOToEntity(NewUserDTO newUserDTO) {
         return new UserEntity(
-                UUID.randomUUID().toString(),
                 newUserDTO.getFirstName(),
                 newUserDTO.getLastName(),
                 newUserDTO.getAge(),
@@ -21,7 +19,7 @@ public class UserConvert {
 
     public static UserDTO EntityToDTO(UserEntity userEntity) {
         return new UserDTO(
-                userEntity.getUuid(),
+                userEntity.getId(),
                 userEntity.getFirstName(),
                 userEntity.getLastName(),
                 userEntity.getAge()

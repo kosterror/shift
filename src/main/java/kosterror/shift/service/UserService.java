@@ -7,11 +7,10 @@ import kosterror.shift.model.entity.UserEntity;
 import kosterror.shift.repository.UserRepository;
 import kosterror.shift.util.UserConvert;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,11 +31,16 @@ public class UserService {
         return UserConvert.EntityToDTO(savedUserEntity);
     }
 
-    public UserDTO getUserById(String id) {
-        //найдем в БД сущность по id, если такой нет, то кинем исключение
-        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+    public UserDTO getUserById(Long userId) {
+        //найдем в БД сущность по id
+//        UserEntity userEntity = userRepository.findById(userId);
+        Optional<UserEntity> userEntity = userRepository.findById(userId);
 
-        return UserConvert.EntityToDTO(userEntity);
+        if (userEntity.isPresent()) {
+            return UserConvert.EntityToDTO(userEntity.get());
+        } else {
+            return null;
+        }
     }
 
     public ArrayList<UserDTO> getAllUsers() {
