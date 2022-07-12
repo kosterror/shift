@@ -5,13 +5,11 @@ import kosterror.shift.model.dto.PostDTO;
 import kosterror.shift.model.entity.PostEntity;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class PostConvert {
 
     public static PostEntity NewToEntity(NewPostDTO newPostDTO) {
         return new PostEntity(
-                UUID.randomUUID().toString(),
                 newPostDTO.getAuthorId(),
                 newPostDTO.getTitle(),
                 newPostDTO.getText()
@@ -20,7 +18,7 @@ public class PostConvert {
 
     public static PostDTO EntityToDTO(PostEntity postEntity) {
         return new PostDTO(
-                postEntity.getUuid().toString(),
+                postEntity.getId().toString(),
                 postEntity.getAuthorId(),
                 postEntity.getTitle(),
                 postEntity.getText()

@@ -26,8 +26,8 @@ public class PostService {
         return PostConvert.EntityToDTO(savedPostEntity);
     }
 
-    public PostDTO getPostById(String id) {
-        PostEntity postEntity = postRepository.findById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+    public PostDTO getPostByPostId(String postId) {
+        PostEntity postEntity = postRepository.findById(postId).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
 
         return PostConvert.EntityToDTO(postEntity);
     }

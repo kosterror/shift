@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/post")
@@ -22,14 +21,14 @@ public class PostController {
         return postService.create(newPostDTO);
     }
 
-    @GetMapping("/get/{id}")
-    public PostDTO getPostById(@PathVariable UUID id) {
-        return postService.getPostById(id.toString());
+    @GetMapping("/get/{postId}")
+    public PostDTO getPostByPostId(@PathVariable String postId) {
+        return postService.getPostByPostId(postId);
     }
 
-    @GetMapping("/getAll/{id}")
-    public ArrayList<PostDTO> getAllPostsByIUserId(@PathVariable UUID id) {
-        return PostConvert.ListEntityToListDTO(postService.getAllPostsByIUserId(id.toString()));
+    @GetMapping("/getAll/{userId}")
+    public ArrayList<PostDTO> getAllPostsByIUserId(@PathVariable String userId) {
+        return PostConvert.ListEntityToListDTO(postService.getAllPostsByIUserId(userId));
     }
 
 }

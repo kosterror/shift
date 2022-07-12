@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
@@ -21,9 +20,9 @@ public class UserController {
         return userService.create(newUserDTO);
     }
 
-    @GetMapping("/get/{id}")
-    public UserDTO getUserById(@PathVariable UUID id) {
-        return userService.getUserById(id.toString());
+    @GetMapping("/get/{userId}")
+    public UserDTO getUserById(@PathVariable Long userId) {
+        return userService.getUserById(userId);
     }
 
     @GetMapping("/getAll")
