@@ -26,15 +26,13 @@ public class PostService {
         return PostConvert.EntityToDTO(savedPostEntity);
     }
 
-    public PostDTO getPostByPostId(String postId) {
+    public PostDTO getPostByPostId(Long postId) {
         PostEntity postEntity = postRepository.findById(postId).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
 
         return PostConvert.EntityToDTO(postEntity);
     }
 
-    public ArrayList<PostEntity> getAllPostsByIUserId(String userId) {
-        ArrayList<PostEntity> posts = postRepository.findAllByAuthorId(userId);
-
-        return posts;
+    public ArrayList<PostEntity> getAllPostsByIUserId(Long userId) {
+        return postRepository.findAllByAuthorId(userId);
     }
 }

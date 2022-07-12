@@ -22,12 +22,12 @@ public class PostController {
     }
 
     @GetMapping("/get/{postId}")
-    public PostDTO getPostByPostId(@PathVariable String postId) {
+    public PostDTO getPostByPostId(@PathVariable Long postId) {
         return postService.getPostByPostId(postId);
     }
 
     @GetMapping("/getAll/{userId}")
-    public ArrayList<PostDTO> getAllPostsByIUserId(@PathVariable String userId) {
+    public ArrayList<PostDTO> getAllPostsByIUserId(@PathVariable Long userId) {
         return PostConvert.ListEntityToListDTO(postService.getAllPostsByIUserId(userId));
     }
 

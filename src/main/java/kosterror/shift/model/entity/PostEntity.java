@@ -10,10 +10,10 @@ public class PostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private String id;
+    private Long id;
 
     @Column
-    private String authorId;
+    private Long authorId;
 
     @Column
     private String title;
@@ -24,17 +24,17 @@ public class PostEntity {
     public PostEntity() {
     }
 
-    public PostEntity(String authorId, String title, String text) {
+    public PostEntity(Long authorId, String title, String text) {
         this.authorId = authorId;
         this.title = title;
         this.text = text;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public String getAuthorId() {
+    public Long getAuthorId() {
         return authorId;
     }
 
@@ -46,11 +46,11 @@ public class PostEntity {
         return text;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public void setAuthorId(String authorId) {
+    public void setAuthorId(Long authorId) {
         this.authorId = authorId;
     }
 
