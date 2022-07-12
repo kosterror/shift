@@ -3,6 +3,8 @@ package kosterror.shift.service;
 import kosterror.shift.model.dto.NewPostDTO;
 import kosterror.shift.model.dto.PostDTO;
 import kosterror.shift.model.entity.PostEntity;
+import kosterror.shift.model.entity.PostLikeEntity;
+import kosterror.shift.repository.PostLikeRepository;
 import kosterror.shift.repository.PostRepository;
 import kosterror.shift.util.PostConvert;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final PostLikeRepository postLikeRepository;
 
     public PostDTO create(NewPostDTO newPostDTO) {
         PostEntity postEntity = PostConvert.NewToEntity(newPostDTO);
@@ -34,5 +37,14 @@ public class PostService {
 
     public ArrayList<PostEntity> getAllPostsByIUserId(Long userId) {
         return postRepository.findAllByAuthorId(userId);
+    }
+
+    public PostLikeEntity like(PostLikeEntity postLikeEntity) {
+        //TODO: добавить проверку наличия лайка
+        return postLikeRepository.save(postLikeEntity);
+    }
+
+    public ArrayList<PostLikeEntity> getPostLikesByPostId(Long postId) {
+        return postLikeRepository.getPostLikeEntitiesByPostId(postId);
     }
 }

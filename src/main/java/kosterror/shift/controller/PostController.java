@@ -2,6 +2,7 @@ package kosterror.shift.controller;
 
 import kosterror.shift.model.dto.NewPostDTO;
 import kosterror.shift.model.dto.PostDTO;
+import kosterror.shift.model.entity.PostLikeEntity;
 import kosterror.shift.service.PostService;
 import kosterror.shift.util.PostConvert;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,16 @@ public class PostController {
     @GetMapping("/getAll/{userId}")
     public ArrayList<PostDTO> getAllPostsByIUserId(@PathVariable Long userId) {
         return PostConvert.ListEntityToListDTO(postService.getAllPostsByIUserId(userId));
+    }
+
+    @PostMapping("/like/set")
+    public PostLikeEntity likePost(@RequestBody PostLikeEntity postLikeEntity) {
+        return postService.like(postLikeEntity);
+    }
+
+    @GetMapping("/like/get/{postId}")
+    public ArrayList<PostLikeEntity> getAllLikesByPostId(@PathVariable Long postId) {
+        return postService.getPostLikesByPostId(postId);
     }
 
 }
