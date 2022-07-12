@@ -1,12 +1,11 @@
 package kosterror.shift.model.entity;
 
-
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "post_like")
-public class PostLikeEntity {
+@Table(name = "comment")
+public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,13 +19,17 @@ public class PostLikeEntity {
     @Column
     private Date date;
 
-    public PostLikeEntity() {
+    @Column
+    String text;
+
+    public CommentEntity() {
     }
 
-    public PostLikeEntity(Long authorId, Long postId, Date likeDate) {
+    public CommentEntity(Long authorId, Long postId, Date date, String text) {
         this.authorId = authorId;
         this.postId = postId;
-        this.date = likeDate;
+        this.date = date;
+        this.text = text;
     }
 
     public Long getId() {
@@ -43,5 +46,9 @@ public class PostLikeEntity {
 
     public Date getDate() {
         return date;
+    }
+
+    public String getText() {
+        return text;
     }
 }

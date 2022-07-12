@@ -2,6 +2,7 @@ package kosterror.shift.controller;
 
 import kosterror.shift.model.dto.NewPostDTO;
 import kosterror.shift.model.dto.PostDTO;
+import kosterror.shift.model.entity.CommentEntity;
 import kosterror.shift.model.entity.PostLikeEntity;
 import kosterror.shift.service.PostService;
 import kosterror.shift.util.PostConvert;
@@ -37,9 +38,19 @@ public class PostController {
         return postService.like(postLikeEntity);
     }
 
-    @GetMapping("/like/get/{postId}")
+    @GetMapping("/like/getAll/{postId}")
     public ArrayList<PostLikeEntity> getAllLikesByPostId(@PathVariable Long postId) {
         return postService.getPostLikesByPostId(postId);
+    }
+
+    @PostMapping("/comment/set")
+    public CommentEntity comment(@RequestBody CommentEntity commentEntity) {
+        return postService.comment(commentEntity);
+    }
+
+    @GetMapping("/comment/getAll/{postId}")
+    public ArrayList<CommentEntity> getAllCommentsByPostId(@PathVariable Long postId) {
+        return postService.getAllCommentsByPostId(postId);
     }
 
 }

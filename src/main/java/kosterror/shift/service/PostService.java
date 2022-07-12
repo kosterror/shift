@@ -2,8 +2,10 @@ package kosterror.shift.service;
 
 import kosterror.shift.model.dto.NewPostDTO;
 import kosterror.shift.model.dto.PostDTO;
+import kosterror.shift.model.entity.CommentEntity;
 import kosterror.shift.model.entity.PostEntity;
 import kosterror.shift.model.entity.PostLikeEntity;
+import kosterror.shift.repository.CommentRepository;
 import kosterror.shift.repository.PostLikeRepository;
 import kosterror.shift.repository.PostRepository;
 import kosterror.shift.util.PostConvert;
@@ -20,6 +22,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
+    private final CommentRepository commentRepository;
 
     public PostDTO create(NewPostDTO newPostDTO) {
         PostEntity postEntity = PostConvert.NewToEntity(newPostDTO);
@@ -40,11 +43,19 @@ public class PostService {
     }
 
     public PostLikeEntity like(PostLikeEntity postLikeEntity) {
-        //TODO: добавить проверку наличия лайка
+        //TODO: добавить проверку наличия лайка, валидация короче
         return postLikeRepository.save(postLikeEntity);
     }
 
     public ArrayList<PostLikeEntity> getPostLikesByPostId(Long postId) {
         return postLikeRepository.getPostLikeEntitiesByPostId(postId);
+    }
+
+    public CommentEntity comment(CommentEntity commentEntity) {
+        return commentRepository.save(commentEntity);
+    }
+
+    public ArrayList<CommentEntity> getAllCommentsByPostId(Long id) {
+        return commentRepository.getAllByPostId(id);
     }
 }
