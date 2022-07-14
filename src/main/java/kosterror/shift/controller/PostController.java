@@ -1,6 +1,7 @@
 package kosterror.shift.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import kosterror.shift.exeption.PostLikeAlreadyExists;
 import kosterror.shift.exeption.PostNotFoundException;
 import kosterror.shift.exeption.UserNotFoundException;
 import kosterror.shift.model.dto.NewCommentDTO;
@@ -53,13 +54,17 @@ public class PostController {
 
     @PostMapping("/like/set")
     @Operation(description = "Поставить лайк")
-    public PostLikeEntity likePost(@RequestBody NewPostLikeDTO newPostLikeDTO) {
-        return postService.like(newPostLikeDTO);
+    public ResponseEntity likePost(@RequestBody NewPostLikeDTO newPostLikeDTO) {
+        try {
+            return ResponseEntity.ok(postService.like(newPostLikeDTO));
+        } catch (UserNotFoundException | PostLikeAlreadyExists | PostNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/like/getAll/{postId}")
     @Operation(description = "Получить список всех лайков поста с id = postId")
-    public ArrayList<PostLikeEntity> getAllLikesByPostId(@PathVariable Long postId) {
+    public ArrayList<PostLikeEntity> getAllLikesByPostId(@PathVariable String postId) {
         return postService.getPostLikesByPostId(postId);
     }
 

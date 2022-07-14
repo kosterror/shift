@@ -1,5 +1,6 @@
 package kosterror.shift.service;
 
+import kosterror.shift.exeption.PostLikeAlreadyExists;
 import kosterror.shift.exeption.PostNotFoundException;
 import kosterror.shift.exeption.UserNotFoundException;
 import kosterror.shift.model.dto.NewCommentDTO;
@@ -48,13 +49,25 @@ public class PostService {
         return postRepository.findAllByAuthorId(userId);
     }
 
-    public PostLikeEntity like(NewPostLikeDTO newPostLikeDTO) {
-        //TODO: добавить проверку наличия лайка, валидация короче
+    public PostLikeEntity like(NewPostLikeDTO newPostLikeDTO) throws PostLikeAlreadyExists, PostNotFoundException, UserNotFoundException {
+        //как же мне не нравится эта конструкция...
 
-        return postLikeRepository.save(PostConvert.NewPostLikeDTOToPostLikeEntity(newPostLikeDTO));
+        if (userRepository.existsById(newPostLikeDTO.getAuthorId())) {
+            if (postLikeRepository.existsByAuthorId(newPostLikeDTO.getAuthorId())) {
+                if (postRepository.existsById(newPostLikeDTO.getPostId())) {
+                    return postLikeRepository.save(PostConvert.NewPostLikeDTOToPostLikeEntity(newPostLikeDTO));
+                } else {
+                    throw new PostNotFoundException("Post with this ID not found.");
+                }
+            } else {
+                throw new PostLikeAlreadyExists("This user already liked this post.");
+            }
+        } else {
+            throw new UserNotFoundException("User with this ID not found.");
+        }
     }
 
-    public ArrayList<PostLikeEntity> getPostLikesByPostId(Long postId) {
+    public ArrayList<PostLikeEntity> getPostLikesByPostId(String postId) {
         return postLikeRepository.getPostLikeEntitiesByPostId(postId);
     }
 
