@@ -20,6 +20,7 @@ public class UserService {
 
     public UserDTO create(NewUserDTO newUserDTO) {
 
+
         //создадим сущность для сохранение в БД
         UserEntity userEntity = UserConvert.NewDTOToEntity(newUserDTO);
 
@@ -33,7 +34,6 @@ public class UserService {
 
     public UserDTO getUserById(Long userId) {
         //найдем в БД сущность по id
-//        UserEntity userEntity = userRepository.findById(userId);
         Optional<UserEntity> userEntity = userRepository.findById(userId);
 
         if (userEntity.isPresent()) {
@@ -47,6 +47,12 @@ public class UserService {
         ArrayList<UserEntity> userEntities = (ArrayList<UserEntity>) userRepository.findAll();
 
         return UserConvert.ListEntityToListDTO(userEntities);
+    }
+
+    public UserDTO getUserByLogin(String login) {
+        //TODO: реализовать
+
+        return null;
     }
 
 }
