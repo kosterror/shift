@@ -59,5 +59,4 @@ public class PostConvert {
                 newPostLikeDTO.getDate()
         );
     }
-
 }

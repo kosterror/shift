@@ -1,6 +1,10 @@
 package kosterror.shift.model.entity;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,6 +12,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "post")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PostEntity {
 
     @Id
@@ -23,45 +30,4 @@ public class PostEntity {
     @Column
     private String text;
 
-    public PostEntity() {
-    }
-
-    public PostEntity(String id, String authorId, String title, String text) {
-        this.id = id;
-        this.authorId = authorId;
-        this.title = title;
-        this.text = text;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getAuthorId() {
-        return authorId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setAuthorId(String authorId) {
-        this.authorId = authorId;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
 }
