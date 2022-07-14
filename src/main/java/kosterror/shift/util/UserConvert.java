@@ -24,7 +24,8 @@ public class UserConvert {
                 userEntity.getId(),
                 userEntity.getFirstName(),
                 userEntity.getLastName(),
-                userEntity.getAge()
+                userEntity.getAge(),
+                userEntity.getLogin()
         );
     }
 
