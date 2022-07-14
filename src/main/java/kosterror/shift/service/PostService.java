@@ -48,6 +48,8 @@ public class PostService {
 
     public PostLikeEntity like(NewPostLikeDTO newPostLikeDTO) {
         //TODO: добавить проверку наличия лайка, валидация короче
+
+
         return postLikeRepository.save(PostConvert.NewPostLikeDTOToPostLikeEntity(newPostLikeDTO));
     }
 

@@ -1,6 +1,7 @@
 package kosterror.shift.service;
 
 
+import kosterror.shift.exeption.UserAlreadyExists;
 import kosterror.shift.model.dto.NewUserDTO;
 import kosterror.shift.model.dto.UserDTO;
 import kosterror.shift.model.entity.UserEntity;
@@ -18,19 +19,17 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserDTO create(NewUserDTO newUserDTO) {
-        //TODO: здесь должна быть прооверка на уникальность login'a, корректность пароля и т.п.
+    //TODO: как идея: кидать ошибки здесь, обрабатывать в контроллере, на post запросы отвечать response entity
 
+    public UserDTO create(NewUserDTO newUserDTO) throws UserAlreadyExists {
+        //TODO: проверка на уникальность логина есть, но нет проверки на корректность пароля
+        if (!userRepository.existsByLogin(newUserDTO.getLogin())) {
+            UserEntity savedUserEntity = userRepository.save(UserConvert.NewDTOToEntity(newUserDTO));
 
-        //создадим сущность для сохранение в БД
-        UserEntity userEntity = UserConvert.NewDTOToEntity(newUserDTO);
-
-
-        //сохраняем в БД
-        UserEntity savedUserEntity = userRepository.save(userEntity);
-
-        //возвращаем DTO (сущность без пароля)
-        return UserConvert.EntityToDTO(savedUserEntity);
+            return UserConvert.EntityToDTO(savedUserEntity);
+        } else {
+            throw new UserAlreadyExists("User with this login already exists. Please choose another login");
+        }
     }
 
     public UserDTO getUserById(String userId) {
@@ -48,7 +47,6 @@ public class UserService {
 
     public UserDTO getUserByLogin(String login) {
         //TODO: реализовать
-
         return null;
     }
 
