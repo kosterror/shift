@@ -1,7 +1,8 @@
 package kosterror.shift.service;
 
 
-import kosterror.shift.exeption.UserAlreadyExists;
+import kosterror.shift.exeption.UserAlreadyExistsException;
+import kosterror.shift.exeption.UserNotFoundException;
 import kosterror.shift.model.dto.NewUserDTO;
 import kosterror.shift.model.dto.UserDTO;
 import kosterror.shift.model.entity.UserEntity;
@@ -21,14 +22,14 @@ public class UserService {
 
     //TODO: как идея: кидать ошибки здесь, обрабатывать в контроллере, на post запросы отвечать response entity
 
-    public UserDTO create(NewUserDTO newUserDTO) throws UserAlreadyExists {
+    public UserDTO create(NewUserDTO newUserDTO) throws UserAlreadyExistsException {
         //TODO: проверка на уникальность логина есть, но нет проверки на корректность пароля
         if (!userRepository.existsByLogin(newUserDTO.getLogin())) {
             UserEntity savedUserEntity = userRepository.save(UserConvert.NewDTOToEntity(newUserDTO));
 
             return UserConvert.EntityToDTO(savedUserEntity);
         } else {
-            throw new UserAlreadyExists("User with this login already exists. Please choose another login");
+            throw new UserAlreadyExistsException("User with this login already exists. Please choose another login");
         }
     }
 
@@ -45,9 +46,13 @@ public class UserService {
         return UserConvert.ListEntityToListDTO(userEntities);
     }
 
-    public UserDTO getUserByLogin(String login) {
+    public UserDTO getUserByLogin(String login) throws UserNotFoundException {
         //TODO: реализовать
-        return null;
+        if (userRepository.existsByLogin(login)) {
+            return UserConvert.EntityToDTO(userRepository.findUserEntityByLogin(login));
+        } else {
+            throw new UserNotFoundException("User with this login does not exists");
+        }
     }
 
 }

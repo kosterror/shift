@@ -1,7 +1,8 @@
 package kosterror.shift.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import kosterror.shift.exeption.UserAlreadyExists;
+import kosterror.shift.exeption.UserAlreadyExistsException;
+import kosterror.shift.exeption.UserNotFoundException;
 import kosterror.shift.model.dto.NewUserDTO;
 import kosterror.shift.model.dto.UserDTO;
 import kosterror.shift.service.UserService;
@@ -23,7 +24,7 @@ public class UserController {
     public ResponseEntity create(@RequestBody NewUserDTO newUserDTO) {
         try {
             return ResponseEntity.ok(userService.create(newUserDTO));
-        } catch (UserAlreadyExists e) {
+        } catch (UserAlreadyExistsException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -35,8 +36,12 @@ public class UserController {
     }
 
     @GetMapping("/get/login={login}")
-    public UserDTO getUserByLogin(@PathVariable String login) {
-        return userService.getUserByLogin(login);
+    public ResponseEntity getUserByLogin(@PathVariable String login) {
+        try {
+            return ResponseEntity.ok(userService.getUserByLogin(login));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/getAll")
