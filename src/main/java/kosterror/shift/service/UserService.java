@@ -19,6 +19,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserDTO create(NewUserDTO newUserDTO) {
+        //TODO: здесь должна быть прооверка на уникальность login'a, корректность пароля и т.п.
 
 
         //создадим сущность для сохранение в БД
@@ -32,15 +33,11 @@ public class UserService {
         return UserConvert.EntityToDTO(savedUserEntity);
     }
 
-    public UserDTO getUserById(Long userId) {
+    public UserDTO getUserById(String userId) {
         //найдем в БД сущность по id
         Optional<UserEntity> userEntity = userRepository.findById(userId);
 
-        if (userEntity.isPresent()) {
-            return UserConvert.EntityToDTO(userEntity.get());
-        } else {
-            return null;
-        }
+        return userEntity.map(UserConvert::EntityToDTO).orElse(null);
     }
 
     public ArrayList<UserDTO> getAllUsers() {

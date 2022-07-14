@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class NewPostDTO {
 
-    private Long authorId;
+    private String authorId;
 
     private String title;
 

@@ -1,19 +1,21 @@
 package kosterror.shift.model.entity;
 
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "post")
 public class PostEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private String id;
 
     @Column
-    private Long authorId;
+    private String authorId;
 
     @Column
     private String title;
@@ -24,17 +26,18 @@ public class PostEntity {
     public PostEntity() {
     }
 
-    public PostEntity(Long authorId, String title, String text) {
+    public PostEntity(String id, String authorId, String title, String text) {
+        this.id = id;
         this.authorId = authorId;
         this.title = title;
         this.text = text;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public Long getAuthorId() {
+    public String getAuthorId() {
         return authorId;
     }
 
@@ -46,11 +49,11 @@ public class PostEntity {
         return text;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public void setAuthorId(Long authorId) {
+    public void setAuthorId(String authorId) {
         this.authorId = authorId;
     }
 

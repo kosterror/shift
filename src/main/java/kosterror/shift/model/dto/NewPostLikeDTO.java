@@ -4,16 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
+public class NewPostLikeDTO {
+    private String authorId;
 
-    private String id;
+    private String postId;
 
-    private String firstName;
+    private Date date;
 
-    private String lastName;
-
-    private int age;
 }

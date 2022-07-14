@@ -1,16 +1,19 @@
 package kosterror.shift.model.entity;
 
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "users")
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private String id;
 
     @Column
     private String firstName;
@@ -27,7 +30,8 @@ public class UserEntity {
     @Column
     private String password;
 
-    public UserEntity(String firstName, String lastName, int age, String login, String password) {
+    public UserEntity(String id, String firstName, String lastName, int age, String login, String password) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -39,7 +43,7 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -63,7 +67,7 @@ public class UserEntity {
         return password;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -1,47 +1,48 @@
 package kosterror.shift.model.entity;
 
 
-import javax.persistence.*;
+import lombok.*;
+import org.hibernate.Hibernate;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "post_like")
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class PostLikeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @Column
-    private Long authorId;
+    private String authorId;
 
     @Column
-    private Long postId;
+    private String postId;
 
     @Column
     private Date date;
 
-    public PostLikeEntity() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        PostLikeEntity that = (PostLikeEntity) o;
+        return id != null && Objects.equals(id, that.id);
     }
 
-    public PostLikeEntity(Long authorId, Long postId, Date likeDate) {
-        this.authorId = authorId;
-        this.postId = postId;
-        this.date = likeDate;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Long getAuthorId() {
-        return authorId;
-    }
-
-    public Long getPostId() {
-        return postId;
-    }
-
-    public Date getDate() {
-        return date;
+    //был warning, после добавления этого исчез
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

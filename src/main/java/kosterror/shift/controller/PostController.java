@@ -1,7 +1,9 @@
 package kosterror.shift.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import kosterror.shift.model.dto.NewCommentDTO;
 import kosterror.shift.model.dto.NewPostDTO;
+import kosterror.shift.model.dto.NewPostLikeDTO;
 import kosterror.shift.model.dto.PostDTO;
 import kosterror.shift.model.entity.CommentEntity;
 import kosterror.shift.model.entity.PostLikeEntity;
@@ -34,13 +36,13 @@ public class PostController {
     @GetMapping("/getAll/{userId}")
     @Operation(description = "Получить список постов пользователя с id = userId")
     public ArrayList<PostDTO> getAllPostsByIUserId(@PathVariable Long userId) {
-        return PostConvert.ListEntityToListDTO(postService.getAllPostsByIUserId(userId));
+        return PostConvert.PostEntityToPostDTO(postService.getAllPostsByIUserId(userId));
     }
 
     @PostMapping("/like/set")
     @Operation(description = "Поставить лайк")
-    public PostLikeEntity likePost(@RequestBody PostLikeEntity postLikeEntity) {
-        return postService.like(postLikeEntity);
+    public PostLikeEntity likePost(@RequestBody NewPostLikeDTO newPostLikeDTO) {
+        return postService.like(newPostLikeDTO);
     }
 
     @GetMapping("/like/getAll/{postId}")
@@ -51,8 +53,8 @@ public class PostController {
 
     @PostMapping("/comment/set")
     @Operation(description = "Прокомментировать пост")
-    public CommentEntity comment(@RequestBody CommentEntity commentEntity) {
-        return postService.comment(commentEntity);
+    public CommentEntity comment(@RequestBody NewCommentDTO newCommentDTO) {
+        return postService.comment(newCommentDTO);
     }
 
     @GetMapping("/comment/getAll/{postId}")
