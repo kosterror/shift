@@ -18,4 +18,12 @@ public class NewUserDTO {
     private String login;
 
     private String password;
+
+    public void removeSpaces() {
+        String regex = "\\s";
+        String replacement = "";
+
+        login = login.replaceAll(regex, replacement);
+        password = password.replaceAll(regex, replacement);
+    }
 }

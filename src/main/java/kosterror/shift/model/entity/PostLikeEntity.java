@@ -1,47 +1,31 @@
 package kosterror.shift.model.entity;
 
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
 @Table(name = "post_like")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PostLikeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @Column
-    private Long authorId;
+    private String authorId;
 
     @Column
-    private Long postId;
+    private String postId;
 
     @Column
     private Date date;
-
-    public PostLikeEntity() {
-    }
-
-    public PostLikeEntity(Long authorId, Long postId, Date likeDate) {
-        this.authorId = authorId;
-        this.postId = postId;
-        this.date = likeDate;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Long getAuthorId() {
-        return authorId;
-    }
-
-    public Long getPostId() {
-        return postId;
-    }
-
-    public Date getDate() {
-        return date;
-    }
 }

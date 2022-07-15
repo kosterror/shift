@@ -1,20 +1,22 @@
 package kosterror.shift.model.entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
 @Table(name = "comment")
 public class CommentEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @Column
-    private Long authorId;
+    private String authorId;
 
     @Column
-    private Long postId;
+    private String postId;
 
     @Column
     private Date date;
@@ -25,22 +27,23 @@ public class CommentEntity {
     public CommentEntity() {
     }
 
-    public CommentEntity(Long authorId, Long postId, Date date, String text) {
+    public CommentEntity(String id, String authorId, String postId, Date date, String text) {
+        this.id = id;
         this.authorId = authorId;
         this.postId = postId;
         this.date = date;
         this.text = text;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public Long getAuthorId() {
+    public String getAuthorId() {
         return authorId;
     }
 
-    public Long getPostId() {
+    public String getPostId() {
         return postId;
     }
 

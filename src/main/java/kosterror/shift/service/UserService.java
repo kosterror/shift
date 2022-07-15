@@ -1,6 +1,8 @@
 package kosterror.shift.service;
 
 
+import kosterror.shift.exeption.UserAlreadyExistsException;
+import kosterror.shift.exeption.UserNotFoundException;
 import kosterror.shift.model.dto.NewUserDTO;
 import kosterror.shift.model.dto.UserDTO;
 import kosterror.shift.model.entity.UserEntity;
@@ -18,35 +20,44 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserDTO create(NewUserDTO newUserDTO) {
+    public UserDTO create(NewUserDTO newUserDTO) throws UserAlreadyExistsException {
+        newUserDTO.removeSpaces();
 
-        //создадим сущность для сохранение в БД
-        UserEntity userEntity = UserConvert.NewDTOToEntity(newUserDTO);
+        if (!userRepository.existsByLogin(newUserDTO.getLogin())) {
+            UserEntity savedUserEntity = userRepository.save(UserConvert.NewDTOToEntity(newUserDTO));
 
+            return UserConvert.EntityToDTO(savedUserEntity);
+        }
 
-        //сохраняем в БД
-        UserEntity savedUserEntity = userRepository.save(userEntity);
+        throw new UserAlreadyExistsException("User with this login already exists. Please choose another login");
 
-        //возвращаем DTO (сущность без пароля)
-        return UserConvert.EntityToDTO(savedUserEntity);
     }
 
-    public UserDTO getUserById(Long userId) {
-        //найдем в БД сущность по id
-//        UserEntity userEntity = userRepository.findById(userId);
-        Optional<UserEntity> userEntity = userRepository.findById(userId);
+    public UserDTO getUserById(String userId) throws UserNotFoundException {
 
-        if (userEntity.isPresent()) {
-            return UserConvert.EntityToDTO(userEntity.get());
-        } else {
-            return null;
+        if (userRepository.existsById(userId)) {
+            Optional<UserEntity> userEntity = userRepository.findById(userId);
+
+            return userEntity.map(UserConvert::EntityToDTO).orElse(null);
         }
+
+        throw new UserNotFoundException("User with this ID does not exists");
+
+
     }
 
     public ArrayList<UserDTO> getAllUsers() {
         ArrayList<UserEntity> userEntities = (ArrayList<UserEntity>) userRepository.findAll();
 
         return UserConvert.ListEntityToListDTO(userEntities);
+    }
+
+    public UserDTO getUserByLogin(String login) throws UserNotFoundException {
+        if (userRepository.existsByLogin(login)) {
+            return UserConvert.EntityToDTO(userRepository.findUserEntityByLogin(login));
+        }
+
+        throw new UserNotFoundException("User with this login does not exists");
     }
 
 }
