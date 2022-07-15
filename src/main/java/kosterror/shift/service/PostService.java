@@ -106,26 +106,26 @@ public class PostService {
         }
     }
 
-    public void removePostLike(String postLikeId) {
-        postLikeRepository.removeById(postLikeId);
+    public void deletePostLike(String postLikeId) {
+        postLikeRepository.deleteById(postLikeId);
     }
 
-    public void removesAllLikes(String postId) {
-        postLikeRepository.removeAllByPostId(postId);
+    public void deleteAllLikes(String postId) {
+        postLikeRepository.deleteAllByPostId(postId);
     }
 
-    public void removeComment(String commentId) {
-        commentRepository.removeById(commentId);
+    public void deleteComment(String commentId) {
+        commentRepository.deleteById(commentId);
     }
 
-    public void removeAllComments(String postId) {
-        commentRepository.removeAllByPostId(postId);
+    public void deleteAllComments(String postId) {
+        commentRepository.deleteAllByPostId(postId);
     }
 
-    public void removePost(String postId) {
-        removesAllLikes(postId);
-        removeAllComments(postId);
+    public void deletePost(String postId) {
+        deleteAllLikes(postId);
+        deleteAllComments(postId);
 
-        postRepository.removeById(postId);
+        postRepository.deleteById(postId);
     }
 }

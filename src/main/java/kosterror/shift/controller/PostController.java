@@ -27,9 +27,9 @@ public class PostController {
     }
 
     @GetMapping("/remove/{postId}")
-    public HttpStatus removePost(@PathVariable String postId) {
+    public HttpStatus deletePost(@PathVariable String postId) {
         try {
-            postService.removePost(postId);
+            postService.deletePost(postId);
 
             return HttpStatus.OK;
         } catch (Exception e) {
@@ -80,9 +80,9 @@ public class PostController {
 
     @GetMapping("/like/delete/{likeId}")
     @Operation(description = "Удалить лайк с заданным ID")
-    public HttpStatus removeLike(@PathVariable String likeId) {
+    public HttpStatus deleteLike(@PathVariable String likeId) {
         try {
-            postService.removePostLike(likeId);
+            postService.deletePostLike(likeId);
 
             return HttpStatus.OK;
         } catch (Exception e) {
@@ -113,9 +113,9 @@ public class PostController {
 
     @PostMapping("/comment/delete/{commentId}")
     @Operation(description = "Удалить комменатрий с заданным ID")
-    public HttpStatus removeComment(@PathVariable String commentId) {
+    public HttpStatus deleteComment(@PathVariable String commentId) {
         try {
-            postService.removeComment(commentId);
+            postService.deleteComment(commentId);
 
             return HttpStatus.OK;
         } catch (Exception e) {

@@ -8,7 +8,5 @@ import java.util.ArrayList;
 public interface CommentRepository extends JpaRepository<CommentEntity, String> {
     ArrayList<CommentEntity> getAllByPostId(String id);
 
-    void removeById(String id);
-
-    void removeAllByPostId(String postId);
+    void deleteAllByPostId(String postId);
 }
