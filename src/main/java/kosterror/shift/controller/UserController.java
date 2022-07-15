@@ -31,8 +31,12 @@ public class UserController {
 
     @GetMapping("/get/userId={userId}")
     @Operation(description = "Получить пользователя по id")
-    public UserDTO getUserById(@PathVariable String userId) {
-        return userService.getUserById(userId);
+    public ResponseEntity getUserById(@PathVariable String userId) {
+        try {
+            return ResponseEntity.ok(userService.getUserById(userId));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/get/login={login}")

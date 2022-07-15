@@ -21,6 +21,8 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserDTO create(NewUserDTO newUserDTO) throws UserAlreadyExistsException {
+        newUserDTO.removeSpaces();
+
         if (!userRepository.existsByLogin(newUserDTO.getLogin())) {
             UserEntity savedUserEntity = userRepository.save(UserConvert.NewDTOToEntity(newUserDTO));
 
@@ -31,10 +33,17 @@ public class UserService {
 
     }
 
-    public UserDTO getUserById(String userId) {
-        Optional<UserEntity> userEntity = userRepository.findById(userId);
+    public UserDTO getUserById(String userId) throws UserNotFoundException {
 
-        return userEntity.map(UserConvert::EntityToDTO).orElse(null);
+        if (userRepository.existsById(userId)) {
+            Optional<UserEntity> userEntity = userRepository.findById(userId);
+
+            return userEntity.map(UserConvert::EntityToDTO).orElse(null);
+        }
+
+        throw new UserNotFoundException("User with this ID does not exists");
+
+
     }
 
     public ArrayList<UserDTO> getAllUsers() {

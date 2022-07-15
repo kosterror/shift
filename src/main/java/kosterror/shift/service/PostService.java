@@ -57,7 +57,7 @@ public class PostService {
         //как же мне не нравится эта конструкция...
 
         if (userRepository.existsById(newPostLikeDTO.getAuthorId())) {
-            if (postLikeRepository.existsByAuthorId(newPostLikeDTO.getAuthorId())) {
+            if (!postLikeRepository.existsByAuthorIdAndPostId(newPostLikeDTO.getAuthorId(), newPostLikeDTO.getPostId())) {
                 if (postRepository.existsById(newPostLikeDTO.getPostId())) {
                     return postLikeRepository.save(PostConvert.NewPostLikeDTOToPostLikeEntity(newPostLikeDTO));
                 } else {

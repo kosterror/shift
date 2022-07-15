@@ -10,5 +10,5 @@ public interface PostLikeRepository extends JpaRepository<PostLikeEntity, String
 
     PostLikeEntity getPostLikeEntityByAuthorId(String authorId);
 
-    boolean existsByAuthorId(String authorId);
+    boolean existsByAuthorIdAndPostId(String authorId, String postId);
 }
