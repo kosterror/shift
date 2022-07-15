@@ -105,4 +105,20 @@ public class PostService {
             throw new PostNotFoundException("Post with this ID does not exists");
         }
     }
+
+    public void removePostLike(String postLikeId) {
+        postLikeRepository.removeById(postLikeId);
+    }
+
+    public void removesAllLikes(String postId) {
+        postLikeRepository.removeAllByPostId(postId);
+    }
+
+    public void removeComment(String commentId) {
+        commentRepository.removeById(commentId);
+    }
+
+    public void removeAllComments(String postId) {
+        commentRepository.removeAllByPostId(postId);
+    }
 }

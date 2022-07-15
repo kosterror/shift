@@ -10,6 +10,7 @@ import kosterror.shift.model.dto.NewPostLikeDTO;
 import kosterror.shift.service.PostService;
 import kosterror.shift.util.PostConvert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,6 +64,29 @@ public class PostController {
             return ResponseEntity.ok(postService.like(newPostLikeDTO));
         } catch (UserNotFoundException | PostLikeAlreadyExists | PostNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/like/delete/{likeId}")
+    @Operation(description = "Удалить конкретный лайк")
+    public HttpStatus removeLike(@PathVariable String likeId) {
+        try {
+            postService.removePostLike(likeId);
+
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.BAD_REQUEST;
+        }
+    }
+
+    @GetMapping("/like/deleteAll/{postId}")
+    public HttpStatus removeAllLikes(@PathVariable String postId) {
+        try {
+            postService.removesAllLikes(postId);
+
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.BAD_REQUEST;
         }
     }
 
