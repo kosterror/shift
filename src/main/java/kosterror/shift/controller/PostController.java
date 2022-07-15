@@ -9,17 +9,21 @@ import kosterror.shift.model.dto.NewPostDTO;
 import kosterror.shift.model.dto.NewPostLikeDTO;
 import kosterror.shift.service.PostService;
 import kosterror.shift.util.PostConvert;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/post")
-@RequiredArgsConstructor
 public class PostController {
 
     private final PostService postService;
+
+    @Autowired
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
 
     @PostMapping("/create")
     @Operation(description = "Создание новго поста")
