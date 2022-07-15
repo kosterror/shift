@@ -7,4 +7,5 @@ import java.util.ArrayList;
 
 public interface PostRepository extends JpaRepository<PostEntity, String> {
     ArrayList<PostEntity> findAllByAuthorId(String id);
+
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public interface PostLikeRepository extends JpaRepository<PostLikeEntity, String> {
     ArrayList<PostLikeEntity> getPostLikeEntitiesByPostId(String id);
 
-    PostLikeEntity getPostLikeEntityByAuthorId(String authorId);
-
     boolean existsByAuthorIdAndPostId(String authorId, String postId);
+
+    void deleteAllByPostId(String postId);
 }

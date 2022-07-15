@@ -10,6 +10,7 @@ import kosterror.shift.model.dto.NewPostLikeDTO;
 import kosterror.shift.service.PostService;
 import kosterror.shift.util.PostConvert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,17 @@ public class PostController {
     @Autowired
     public PostController(PostService postService) {
         this.postService = postService;
+    }
+
+    @GetMapping("/remove/{postId}")
+    public HttpStatus deletePost(@PathVariable String postId) {
+        try {
+            postService.deletePost(postId);
+
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.BAD_REQUEST;
+        }
     }
 
     @PostMapping("/create")
@@ -66,6 +78,19 @@ public class PostController {
         }
     }
 
+    @GetMapping("/like/delete/{likeId}")
+    @Operation(description = "Удалить лайк с заданным ID")
+    public HttpStatus deleteLike(@PathVariable String likeId) {
+        try {
+            postService.deletePostLike(likeId);
+
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.BAD_REQUEST;
+        }
+    }
+
+
     @GetMapping("/like/getAll/{postId}")
     @Operation(description = "Получить список всех лайков поста с id = postId. Если пост с заданным ID не сущестует, то придет исключение")
     public ResponseEntity getAllLikesByPostId(@PathVariable String postId) {
@@ -83,6 +108,18 @@ public class PostController {
             return ResponseEntity.ok(postService.comment(newCommentDTO));
         } catch (UserNotFoundException | PostNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/comment/delete/{commentId}")
+    @Operation(description = "Удалить комменатрий с заданным ID")
+    public HttpStatus deleteComment(@PathVariable String commentId) {
+        try {
+            postService.deleteComment(commentId);
+
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.BAD_REQUEST;
         }
     }
 
