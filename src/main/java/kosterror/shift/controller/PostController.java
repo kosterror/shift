@@ -7,16 +7,12 @@ import kosterror.shift.exeption.UserNotFoundException;
 import kosterror.shift.model.dto.NewCommentDTO;
 import kosterror.shift.model.dto.NewPostDTO;
 import kosterror.shift.model.dto.NewPostLikeDTO;
-import kosterror.shift.model.dto.PostDTO;
-import kosterror.shift.model.entity.CommentEntity;
-import kosterror.shift.model.entity.PostLikeEntity;
 import kosterror.shift.service.PostService;
 import kosterror.shift.util.PostConvert;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/post")
@@ -48,8 +44,12 @@ public class PostController {
 
     @GetMapping("/getAll/{userId}")
     @Operation(description = "Получить список постов пользователя с id = userId")
-    public ArrayList<PostDTO> getAllPostsByIUserId(@PathVariable String userId) {
-        return PostConvert.PostEntityToPostDTO(postService.getAllPostsByIUserId(userId));
+    public ResponseEntity getAllPostsByIUserId(@PathVariable String userId) {
+        try {
+            return ResponseEntity.ok(PostConvert.PostEntityToPostDTO(postService.getAllPostsByIUserId(userId)));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/like/set")
@@ -63,21 +63,33 @@ public class PostController {
     }
 
     @GetMapping("/like/getAll/{postId}")
-    @Operation(description = "Получить список всех лайков поста с id = postId")
-    public ArrayList<PostLikeEntity> getAllLikesByPostId(@PathVariable String postId) {
-        return postService.getPostLikesByPostId(postId);
+    @Operation(description = "Получить список всех лайков поста с id = postId. Если пост с заданным ID не сущестует, то придет исключение")
+    public ResponseEntity getAllLikesByPostId(@PathVariable String postId) {
+        try {
+            return ResponseEntity.ok(postService.getPostLikesByPostId(postId));
+        } catch (PostNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/comment/set")
-    @Operation(description = "Прокомментировать пост")
-    public CommentEntity comment(@RequestBody NewCommentDTO newCommentDTO) {
-        return postService.comment(newCommentDTO);
+    @Operation(description = "Прокомментировать пост. Если пользователь или пост с заданными ID не существуют, то придет исключение")
+    public ResponseEntity comment(@RequestBody NewCommentDTO newCommentDTO) {
+        try {
+            return ResponseEntity.ok(postService.comment(newCommentDTO));
+        } catch (UserNotFoundException | PostNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/comment/getAll/{postId}")
     @Operation(description = "Получить список комментариев поста с id = postId")
-    public ArrayList<CommentEntity> getAllCommentsByPostId(@PathVariable Long postId) {
-        return postService.getAllCommentsByPostId(postId);
+    public ResponseEntity getAllCommentsByPostId(@PathVariable String postId) {
+        try {
+            return ResponseEntity.ok(postService.getAllCommentsByPostId(postId));
+        } catch (PostNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }

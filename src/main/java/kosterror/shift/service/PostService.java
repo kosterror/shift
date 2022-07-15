@@ -45,8 +45,12 @@ public class PostService {
         return PostConvert.PostEntityToPostDTO(postEntity);
     }
 
-    public ArrayList<PostEntity> getAllPostsByIUserId(String userId) {
-        return postRepository.findAllByAuthorId(userId);
+    public ArrayList<PostEntity> getAllPostsByIUserId(String userId) throws UserNotFoundException {
+        if (userRepository.existsById(userId)) {
+            return postRepository.findAllByAuthorId(userId);
+        } else {
+            throw new UserNotFoundException("User with this ID does not exists");
+        }
     }
 
     public PostLikeEntity like(NewPostLikeDTO newPostLikeDTO) throws PostLikeAlreadyExists, PostNotFoundException, UserNotFoundException {
@@ -67,16 +71,31 @@ public class PostService {
         }
     }
 
-    public ArrayList<PostLikeEntity> getPostLikesByPostId(String postId) {
-        return postLikeRepository.getPostLikeEntitiesByPostId(postId);
+    public ArrayList<PostLikeEntity> getPostLikesByPostId(String postId) throws PostNotFoundException {
+        if (postRepository.existsById(postId)) {
+            return postLikeRepository.getPostLikeEntitiesByPostId(postId);
+        } else {
+            throw new PostNotFoundException("Post with this ID not found");
+        }
     }
 
-    public CommentEntity comment(NewCommentDTO newCommentDTO) {
-        //TODO: добавить валидацию на сущестование поста, автора коммента и т.д.
-        return commentRepository.save(PostConvert.NewCommentDTOToCommentEntity(newCommentDTO));
+    public CommentEntity comment(NewCommentDTO newCommentDTO) throws UserNotFoundException, PostNotFoundException {
+        if (userRepository.existsById(newCommentDTO.getAuthorId())) {
+            if (postRepository.existsById(newCommentDTO.getPostId())) {
+                return commentRepository.save(PostConvert.NewCommentDTOToCommentEntity(newCommentDTO));
+            } else {
+                throw new PostNotFoundException("Post with this ID not found");
+            }
+        } else {
+            throw new UserNotFoundException("User with this ID does not exists");
+        }
     }
 
-    public ArrayList<CommentEntity> getAllCommentsByPostId(Long id) {
-        return commentRepository.getAllByPostId(id);
+    public ArrayList<CommentEntity> getAllCommentsByPostId(String id) throws PostNotFoundException {
+        if (postRepository.existsById(id)) {
+            return commentRepository.getAllByPostId(id);
+        } else {
+            throw new PostNotFoundException("Post with this ID does not exists");
+        }
     }
 }

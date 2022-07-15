@@ -36,6 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/get/login={login}")
+    @Operation(description = "Получить пользователя по логину. Если пользователь с заданным логином не найден, то придет исключение")
     public ResponseEntity getUserByLogin(@PathVariable String login) {
         try {
             return ResponseEntity.ok(userService.getUserByLogin(login));
