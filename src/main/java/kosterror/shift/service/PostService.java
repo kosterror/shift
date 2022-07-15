@@ -61,9 +61,8 @@ public class PostService {
     }
 
     public PostLikeEntity like(NewPostLikeDTO newPostLikeDTO) throws PostLikeAlreadyExists, PostNotFoundException, UserNotFoundException {
-        //как же мне не нравится эта конструкция...
+        //пока не придумал как убрать этот ддос бд
 
-        //TODO: исправить это чудо
         if (userRepository.existsById(newPostLikeDTO.getAuthorId())) {
             if (!postLikeRepository.existsByAuthorIdAndPostId(newPostLikeDTO.getAuthorId(), newPostLikeDTO.getPostId())) {
                 if (postRepository.existsById(newPostLikeDTO.getPostId())) {
