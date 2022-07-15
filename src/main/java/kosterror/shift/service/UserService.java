@@ -8,17 +8,19 @@ import kosterror.shift.model.dto.UserDTO;
 import kosterror.shift.model.entity.UserEntity;
 import kosterror.shift.repository.UserRepository;
 import kosterror.shift.util.UserConvert;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public UserDTO create(NewUserDTO newUserDTO) throws UserAlreadyExistsException {
         newUserDTO.removeSpaces();

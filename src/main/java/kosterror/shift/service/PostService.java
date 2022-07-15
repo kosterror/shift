@@ -15,19 +15,26 @@ import kosterror.shift.repository.PostLikeRepository;
 import kosterror.shift.repository.PostRepository;
 import kosterror.shift.repository.UserRepository;
 import kosterror.shift.util.PostConvert;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
-@RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
+
+    @Autowired
+    public PostService(PostRepository postRepository, PostLikeRepository postLikeRepository, CommentRepository commentRepository, UserRepository userRepository) {
+        this.postRepository = postRepository;
+        this.postLikeRepository = postLikeRepository;
+        this.commentRepository = commentRepository;
+        this.userRepository = userRepository;
+    }
 
     public PostDTO create(NewPostDTO newPostDTO) throws UserNotFoundException {
         if (userRepository.existsById(newPostDTO.getAuthorId())) {
@@ -54,7 +61,7 @@ public class PostService {
     }
 
     public PostLikeEntity like(NewPostLikeDTO newPostLikeDTO) throws PostLikeAlreadyExists, PostNotFoundException, UserNotFoundException {
-        //как же мне не нравится эта конструкция...
+        //пока не придумал как убрать этот ддос бд
 
         if (userRepository.existsById(newPostLikeDTO.getAuthorId())) {
             if (!postLikeRepository.existsByAuthorIdAndPostId(newPostLikeDTO.getAuthorId(), newPostLikeDTO.getPostId())) {
