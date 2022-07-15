@@ -121,4 +121,11 @@ public class PostService {
     public void removeAllComments(String postId) {
         commentRepository.removeAllByPostId(postId);
     }
+
+    public void removePost(String postId) {
+        removesAllLikes(postId);
+        removeAllComments(postId);
+
+        postRepository.removeById(postId);
+    }
 }

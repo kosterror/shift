@@ -26,6 +26,17 @@ public class PostController {
         this.postService = postService;
     }
 
+    @GetMapping("/remove/{postId}")
+    public HttpStatus removePost(@PathVariable String postId) {
+        try {
+            postService.removePost(postId);
+
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.BAD_REQUEST;
+        }
+    }
+
     @PostMapping("/create")
     @Operation(description = "Создание новго поста")
     public ResponseEntity create(@RequestBody NewPostDTO newPostDTO) {
@@ -68,7 +79,7 @@ public class PostController {
     }
 
     @GetMapping("/like/delete/{likeId}")
-    @Operation(description = "Удалить конкретный лайк")
+    @Operation(description = "Удалить лайк с заданным ID")
     public HttpStatus removeLike(@PathVariable String likeId) {
         try {
             postService.removePostLike(likeId);
@@ -79,16 +90,6 @@ public class PostController {
         }
     }
 
-    @GetMapping("/like/deleteAll/{postId}")
-    public HttpStatus removeAllLikes(@PathVariable String postId) {
-        try {
-            postService.removesAllLikes(postId);
-
-            return HttpStatus.OK;
-        } catch (Exception e) {
-            return HttpStatus.BAD_REQUEST;
-        }
-    }
 
     @GetMapping("/like/getAll/{postId}")
     @Operation(description = "Получить список всех лайков поста с id = postId. Если пост с заданным ID не сущестует, то придет исключение")
@@ -107,6 +108,18 @@ public class PostController {
             return ResponseEntity.ok(postService.comment(newCommentDTO));
         } catch (UserNotFoundException | PostNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/comment/delete/{commentId}")
+    @Operation(description = "Удалить комменатрий с заданным ID")
+    public HttpStatus removeComment(@PathVariable String commentId) {
+        try {
+            postService.removeComment(commentId);
+
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.BAD_REQUEST;
         }
     }
 
